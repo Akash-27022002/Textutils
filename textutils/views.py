@@ -1,53 +1,80 @@
-# i have created this file ---akash
+# I have created this file - Harry
 from django.http import HttpResponse
 from django.shortcuts import render
+
+
 def index(request):
-   return render(request,'index.html')
-def analyse(request):
-    global params,purpose,anaylise_text,c, analysed
-    c=0
-    djtext=request.POST.get('text','default')
-    removepunc=request.POST.get('removepunc','off')
-    full_caps = request.POST.get('fullcaps', 'off')
-    removernewline = request.POST.get('removernewline', 'off')
-    extraspace=request.POST.get('extraspaceremover','off')
-    charcont=request.POST.get('charcont','off')
-    punctuations='''!()-[]{};:'"\,<>./?@#$%^&*_'''
-    if (removepunc=='on'):
-        analysed=""
+    return render(request, 'index.html')
+
+
+def analyze(request):
+    #Get the text
+    djtext = request.POST.get('text', 'default')
+
+    # Check checkbox values
+    removepunc = request.POST.get('removepunc', 'off')
+    fullcaps = request.POST.get('fullcaps', 'off')
+    newlineremover = request.POST.get('newlineremover', 'off')
+    extraspaceremover = request.POST.get('extraspaceremover', 'off')
+    numberremover = request.POST.get('numberremover','off')
+
+    #Check which checkbox is on
+    if removepunc == "on":
+        punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+        analyzed = ""
         for char in djtext:
             if char not in punctuations:
-                analysed=analysed+char
-        params = {'purpose': 'extra spac removed', 'anaylise_text': analysed, 'count': c}
-        djtext = analysed
-    if(full_caps=='on'):
-        analysed=""
+                analyzed = analyzed + char
+
+        params = {'purpose':'Removed Punctuations', 'analyzed_text': analyzed}
+        djtext = analyzed
+
+    if(fullcaps=="on"):
+        analyzed = ""
         for char in djtext:
-            analysed=analysed+char.upper()
-        params = {'purpose': 'extra spac removed', 'anaylise_text': analysed, 'count': c}
-        djtext=analysed
-    if ( removernewline == 'on'):
-        analysed = ""
-        for char in djtext:
-            if char!='\n'and char!='\r':
-                analysed = analysed + char
-        params = {'purpose': 'extra spac removed', 'anaylise_text': analysed, 'count': c}
-        djtext=analysed
-    if(  extraspace=='on' ):
-        analysed= ""
+            analyzed = analyzed + char.upper()
+
+        params = {'purpose': 'Changed to Uppercase', 'analyzed_text': analyzed}
+        djtext = analyzed
+
+    if(extraspaceremover=="on"):
+        analyzed = ""
         for index, char in enumerate(djtext):
-            if (djtext[index]==" " and djtext[index+1]==" "):
-                pass
-            else:
-                analysed=analysed+char
-        params = {'purpose': 'extra spac removed', 'anaylise_text': analysed,'count': c}
-        djtext=analysed
-    if charcont == 'on':
-        c = 0
+            # It is for if a extraspace is in the last of the string
+            if char == djtext[-1]:
+                    if not(djtext[index] == " "):
+                        analyzed = analyzed + char
+
+            elif not(djtext[index] == " " and djtext[index+1]==" "):                        
+                analyzed = analyzed + char
+
+        params = {'purpose': 'Removed NewLines', 'analyzed_text': analyzed}
+        djtext = analyzed
+
+    if (newlineremover == "on"):
+        analyzed = ""
         for char in djtext:
-            c = c + 1
-        params = {'purpose': 'extra spac removed', 'anaylise_text': analysed, 'count': c}
-    if extraspace=='on'or removernewline=='on'or removepunc == 'on'or charcont=='on'or full_caps == 'on':
-        return render(request, 'analyse.html', params)
-    if extraspace != 'on' and removernewline != 'on' and removepunc != 'on'and charcont !='on'and full_caps != 'on':
-          return HttpResponse("please select any switch")
+            if char != "\n" and char!="\r":
+                analyzed = analyzed + char
+
+        params = {'purpose': 'Removed NewLines', 'analyzed_text': analyzed}
+    
+    if (numberremover == "on"):
+        analyzed = ""
+        numbers = '0123456789'
+
+        for char in djtext:
+            if char not in numbers:
+                analyzed = analyzed + char
+        
+        params = {'purpose': 'Removed NewLines', 'analyzed_text': analyzed}
+        djtext = analyzed
+
+    
+    if(removepunc != "on" and newlineremover!="on" and extraspaceremover!="on" and fullcaps!="on" and numberremover != "on"):
+        return HttpResponse("please select any operation and try again")
+
+    return render(request, 'analyze.html', params)
+
+def about(request):
+    return render(request, 'about.html')
