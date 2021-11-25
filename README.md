@@ -13,3 +13,11 @@ It is a simple django project or website in which we can Analyze text.
 <h1>Requirments</h1>
 python3<br>
 django<br>
+
+## Screenshots
+
+![App Screenshot](https://github.com/Akash-27022002/Textutils/blob/Akash-27022002-patch-1/screenShots/Screenshot%20(16).png)
+![App Screenshot](https://github.com/Akash-27022002/Textutils/blob/Akash-27022002-patch-1/screenShots/Screenshot%20(17).png)
+![App Screenshot](https://github.com/Akash-27022002/Textutils/blob/Akash-27022002-patch-1/screenShots/Screenshot%20(18).png)
+![App Screenshot](https://github.com/Akash-27022002/Textutils/blob/Akash-27022002-patch-1/screenShots/Screenshot%20(19).png)
+![App Screenshot](https://github.com/Akash-27022002/Textutils/blob/Akash-27022002-patch-1/screenShots/Screenshot%20(20).png)
